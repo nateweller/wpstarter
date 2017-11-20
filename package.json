@@ -1,0 +1,23 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-task:scss-compile": "node-sass-chokidar --source-map true public/wp-content/themes/wpstarter/styles -o public/wp-content/themes/wpstarter",
+    "build-task:autoprefixer": "postcss public/wp-content/themes/wpstarter/*.css --use autoprefixer -d public/wp-content/themes/wpstarter",
+    "sass:build": "npm-run-all -p build-task:*",
+    "sass:watch": "chokidar 'public/wp-content/themes/wpstarter/styles/**/*.scss' -c 'npm run sass:build'",
+    "dev": "npm-run-all -p sass:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^7.1.6",
+    "chokidar-cli": "^1.2.0",
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.2",
+    "postcss-cli": "^4.1.1"
+  }
+}
