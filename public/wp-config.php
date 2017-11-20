@@ -18,18 +18,22 @@
  * @package WordPress
  */
 
+ // ** Dotenv ** //
+require_once(__DIR__ . '/../vendor/autoload.php');
+(new \Dotenv\Dotenv(__DIR__.'/../'))->load();
+
 // ** MySQL settings ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'local' );
+define( 'DB_NAME', getenv('WP_DB_NAME') );
 
 /** MySQL database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', getenv('WP_DB_USER') );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'root' );
+define( 'DB_PASSWORD', getenv('WP_DB_PASSWORD') );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', getenv('WP_DB_HOST') );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
