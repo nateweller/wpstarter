@@ -1,7 +1,29 @@
 {
     "name": "nateweller/wpstarter",
+    "description": "A starter installation for building with WordPress.",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        }
+    ],
     "require": {
-        "vlucas/phpdotenv": "^2.2"
+        "vlucas/phpdotenv": "^2.2",
+        "johnpbloch/wordpress": "4.2",
+        "wpackagist-plugin/wp-mail-smtp": "0.11.1"
+    },
+    "extra": {
+        "installer-paths": {
+            "public/wp-content/mu-plugins/{$name}/": [
+                "type:wordpress-muplugin"
+            ],
+            "public/wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "public/wp-content/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        }
     },
     "authors": [
         {
