@@ -10,7 +10,8 @@
     "require": {
         "vlucas/phpdotenv": "^2.2",
         "wpackagist-plugin/wp-mail-smtp": "0.11.1",
-        "wpackagist-plugin/wordfence": "6.3.21"
+        "wpackagist-plugin/wordfence": "6.3.21",
+        "wpackagist-plugin/timber-library": "1.5.2"
     },
     "extra": {
         "installer-paths": {
