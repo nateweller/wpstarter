@@ -1,6 +1,40 @@
 <?php 
 
 # # # # # # # # # # # # # # # # # # # # 
+// DEVELOPMENT TOOLS \\ ~ * ~ * ~ * ~ *
+# # # # # # # # # # # # # # # # # # # # 
+
+// Print formatted output at the top of the page.
+$debugger = [];
+function debug ( $output ) { global $debugger; $debugger[] = $output; }
+function debugger () { 
+    global $debugger;
+    echo '<div id="debugger">';
+    foreach ( $debugger as $output ) {
+        if ( is_iterable( $output ) ) {
+            echo '<pre>';
+            print_r( $output );
+            echo '</pre>';
+        } else {
+            echo $output;
+        }
+        echo '<hr>';
+    }
+    echo '</div>';
+    echo '
+        <script>
+        (function () {
+            var debug = document.querySelector("#debugger");
+            var body = document.querySelector("body");
+            while (debug.childNodes.length > 0) {
+                body.prepend(debug.childNodes[debug.childNodes.length - 1]);
+            }
+        }());
+        </script>
+    ';
+}
+
+# # # # # # # # # # # # # # # # # # # # 
 // TEMPLATE RENDERING \\ ~ * ~ * ~ * ~
 # # # # # # # # # # # # # # # # # # # # 
 
@@ -47,6 +81,14 @@ function compile_view ( string $view = '', array $variables = [] ) {
         $context[$key] = $value;
     }
     return Timber::compile( "views/$view.twig", $context );
+}
+
+/**
+ * Return the output of a function.
+ */
+function catch_output ( $fn ) {
+    ob_start(); $fn();
+    return ob_get_clean();
 }
 
 # # # # # # # # # # # # # # # # # # # # 

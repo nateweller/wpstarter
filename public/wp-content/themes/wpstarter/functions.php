@@ -5,6 +5,7 @@
 # # # # # # # # # # # # # # # # # # # #
 
 define( 'DIR', get_stylesheet_directory() );
+define( 'ENV', getenv(WP_ENVIRONMENT) );
 $state = [];
 
 # # # # # # # # # # # # # # # # # # # #
@@ -34,7 +35,6 @@ function wps_get_nav_menu_items ( $menu, $args ) {
                 if ( ! $target[$key]->subMenu ) $target[$key]->{"subMenu"} = [];
                 $target[$key]->subMenu[] = $current_item;
                 return true;
-                break;
             }
             if ( $value->subMenu ) {
                 move_to_parents( $value->subMenu, $current_item );
@@ -43,9 +43,9 @@ function wps_get_nav_menu_items ( $menu, $args ) {
         return false;
     }
 
+    $i = 0;
     $loops = 0;
     $max_loops = count($menu);
-    $i = 0;
     while ( $loops <= $max_loops ) {
         // If parent exists, find and nest it
         if ( $menu[$i]->menu_item_parent != '0' ) {
