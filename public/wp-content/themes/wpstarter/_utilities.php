@@ -4,6 +4,12 @@
 // DEVELOPMENT TOOLS \\ ~ * ~ * ~ * ~ *
 # # # # # # # # # # # # # # # # # # # # 
 
+if ( ENV === 'development' ) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);
+}
+
 // Print formatted output at the top of the page.
 $debugger = [];
 function debug ( $output ) { global $debugger; $debugger[] = $output; }
@@ -58,9 +64,9 @@ function get_backtrace_filename ( int $level = 0, string $extension = '' ) {
  * Create an array of data for Timber
  * Includes Timber::get_context, Timber::get_post, global $state, and args
  */
-function load_timber_data ( array $variables = [] ) {
+function load_timber_data ( string $view = '', array $variables = [] ) {
     global $state;
-    $view = ($view !== '') ? $view : get_backtrace_filename( 1, '.php' );
+    $view = ($view !== '') ? $view : get_backtrace_filename( 2, '.php' );
     $context = Timber::get_context();
     $context['post'] = Timber::get_post();
     foreach ( $state as $key => $value ) {
@@ -69,24 +75,24 @@ function load_timber_data ( array $variables = [] ) {
     foreach ( $variables as $key => $value ) {
         $context[$key] = $value;
     }
-    return $context;
+    return [ 'view' => $view, 'context' => $context ];
 }
 
 /**
  * Shortcut for Timber::render
  */
 function render_view ( string $view = '', array $variables = [] ) {
-    $context = load_timber_data( $variables );
-    debug( $context );
-    Timber::render( "/views/$view.twig", $context );
+    $timber_data = load_timber_data( $view, $variables );
+    // debug( $timber_data );
+    Timber::render( "/views/{$timber_data['view']}.twig", $timber_data['context'] );
 }
 
 /**
  * Shortcut for Timber::compile
  */
 function compile_view ( string $view = '', array $variables = [] ) {
-    $context = load_timber_data( $variables );
-    return Timber::compile( "views/$view.twig", $context );
+    $timber_data = load_timber_data( $view, $variables );
+    return Timber::compile( "/views/{$timber_data['view']}.twig", $timber_data['context'] );
 }
 
 /**
@@ -96,32 +102,3 @@ function catch_output ( $fn ) {
     ob_start(); $fn();
     return ob_get_clean();
 }
-
-# # # # # # # # # # # # # # # # # # # # 
-// DATA OPERATIONS \\ ~ * ~ * ~ * ~ * ~
-# # # # # # # # # # # # # # # # # # # # 
-
-/**
- * Find an array or object in another array, by array/object key value
- * Returns array/object index (int) or false
- */
-function search_2D_array ( $arr, string $search_key, string $search_value ) {
-    foreach ( $arr as $key => $value ) {
-        $match_check = is_array( $value ) 
-                    ? $value['search_key'] == $search_value
-                    : $value->{"$search_key"} == $search_value;
-        if ( $match_check ) return $key;
-    }
-    return false;
-}
-
-// function search_multiD_array ( $arr, string $search_key, string $search_value ) {
-//     $target = $arr;
-//     $matched = false;
-//     foreach ( $arr as $key => $value ) {
-//         while ( ! $matched ) {
-//             $search = search_2D_array( $target, $search_key, $search_value );
-
-//         }
-//     }
-// }

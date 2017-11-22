@@ -1,34 +1,34 @@
-{# TODO: Support infinite levels of sub-navigation items (current: 3) #}
+{% macro menuItemClasses( item, post) %}
+    menu-item 
+    {{ item.object_id == post.id ? 'current-page' }}
+    {{ item.subMenu ? 'menu-item-has-children' }}
+    {% for subItem in item.subMenu %}
+        {{ subItem.object_id == post.id ? 'current-menu-parent' }}
+    {% endfor %}
+    {{ item.classes|join }}
+{% endmacro %}
+
+{% macro menuItem( item, post ) %}
+    <li class="{{ _self.menuItemClasses( item, post ) }}">
+        <a href="{{ item.url }}">{{ item.title }}</a>
+        {% if item.subMenu %}
+            <ul class="sub-menu">
+                {% for menuItem in item.subMenu %}
+                    {{ _self.menuItem( menuItem, post ) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
 <header>
     <h1>{{ site.title }}</h1>
     <p>{{ site.description }}</p>
     {% if menu|length > 0 %}
         <ul class="nav">
             {% for menuItem in menu %}
-                <li class="{{ menuItem.classes|join }}">
-                    <a href="{{ menuItem.url }}">{{ menuItem.title }}</a>
-                    {% if menuItem.subMenu %}
-                        <ul class="sub-menu">
-                            {% for subMenuItem in menuItem.subMenu %}
-                                <li class="{{ subMenuItem.classes|join }}">
-                                    <a href="{{ subMenuItem.url }}">{{ subMenuItem.title }}</a>
-                                    {% if subMenuItem.subMenu %}
-                                        <ul class="sub-menu">
-                                            {% for subSubMenuItem in subMenuItem.subMenu %}
-                                                <li class="{{ subSubMenuItem.classes|join }}">
-                                                    <a href="{{ subSubMenuItem.url }}">{{ subSubMenuItem.title }}</a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </li>
+                {{ _self.menuItem( menuItem, post ) }}
             {% endfor %}
         </ul>
     {% endif %}
-    <nav>
-    </nav>
 </header>
