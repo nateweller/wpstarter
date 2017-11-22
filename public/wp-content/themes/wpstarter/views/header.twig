@@ -1,25 +1,31 @@
 {# TODO: Support infinite levels of sub-navigation items (current: 3) #}
 <header>
-    <h1>{{ siteTitle }}</h1>
-    <p>{{ siteDescription }}</p>
+    <h1>{{ site.title }}</h1>
+    <p>{{ site.description }}</p>
     {% if menu|length > 0 %}
         <ul class="nav">
             {% for menuItem in menu %}
-                <li class="{{ menuItem.classes|join }}"><a href="{{ menuItem.url }}">{{ menuItem.title }}</a></li>
-                {% if menuItem.subMenu %}
-                    <ul class="sub-menu">
-                        {% for subMenuItem in menuItem.subMenu %}
-                            <li class="{{ subMenuItem.classes|join }}"><a href="{{ subMenuItem.url }}">{{ subMenuItem.title }}</a></li>
-                            {% if subMenuItem.subMenu %}
-                                <ul class="sub-menu">
-                                    {% for subSubMenuItem in subMenuItem.subMenu %}
-                                        <li class="{{ subSubMenuItem.classes|join }}"><a href="{{ subSubMenuItem.url }}">{{ subSubMenuItem.title }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                <li class="{{ menuItem.classes|join }}">
+                    <a href="{{ menuItem.url }}">{{ menuItem.title }}</a>
+                    {% if menuItem.subMenu %}
+                        <ul class="sub-menu">
+                            {% for subMenuItem in menuItem.subMenu %}
+                                <li class="{{ subMenuItem.classes|join }}">
+                                    <a href="{{ subMenuItem.url }}">{{ subMenuItem.title }}</a>
+                                    {% if subMenuItem.subMenu %}
+                                        <ul class="sub-menu">
+                                            {% for subSubMenuItem in subMenuItem.subMenu %}
+                                                <li class="{{ subSubMenuItem.classes|join }}">
+                                                    <a href="{{ subSubMenuItem.url }}">{{ subSubMenuItem.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
     {% endif %}

@@ -1,12 +1,12 @@
 <!doctype html>
-<head {{lang}}>
-    <meta charset="{{ charset }}">
+<head lang="{{ site.language }}">
+    <meta charset="{{ site.charset }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ siteTitle }} | {{ siteDescription }}</title>
+    <title>{{ site.title }} | {{ fn('is_front_page') ? site.description : post.post_title }}</title>
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-    {{ wpHead }}
+    {{ wp_head }}
 </head>
-<body {{ bodyClass }}>
+<body class="{{ body_class }}">
     {{ include('header.twig') }}

@@ -55,18 +55,29 @@ function get_backtrace_filename ( int $level = 0, string $extension = '' ) {
 }
 
 /**
- * Shortcut for Timber::render
+ * Create an array of data for Timber
+ * Includes Timber::get_context, Timber::get_post, global $state, and args
  */
-function render_view ( string $view = '', array $variables = [] ) {
+function load_timber_data ( array $variables = [] ) {
     global $state;
     $view = ($view !== '') ? $view : get_backtrace_filename( 1, '.php' );
     $context = Timber::get_context();
+    $context['post'] = Timber::get_post();
     foreach ( $state as $key => $value ) {
         $context[$key] = $value;
     }
     foreach ( $variables as $key => $value ) {
         $context[$key] = $value;
     }
+    return $context;
+}
+
+/**
+ * Shortcut for Timber::render
+ */
+function render_view ( string $view = '', array $variables = [] ) {
+    $context = load_timber_data( $variables );
+    debug( $context );
     Timber::render( "/views/$view.twig", $context );
 }
 
@@ -74,12 +85,7 @@ function render_view ( string $view = '', array $variables = [] ) {
  * Shortcut for Timber::compile
  */
 function compile_view ( string $view = '', array $variables = [] ) {
-    global $state;
-    $view = ($view !== '') ? $view : get_backtrace_filename( 1, '.php' );
-    $context = Timber::get_context();
-    foreach ( $state as $key => $value ) {
-        $context[$key] = $value;
-    }
+    $context = load_timber_data( $variables );
     return Timber::compile( "views/$view.twig", $context );
 }
 
