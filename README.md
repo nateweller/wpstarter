@@ -3,6 +3,7 @@ A framework for building neat stuff with WordPress, really quickly.
 
 ### What's In The Box?
 - WordPress 4.9
+- HTML5 Shiv
 - Dependancy management with Composer
 - Environment configuration with Dotenv
 - SCSS precompiling w/ autoprefixer and source maps

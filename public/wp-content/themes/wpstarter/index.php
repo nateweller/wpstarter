@@ -2,6 +2,6 @@
 
 get_header();
 
-echo 'Hello, World!';
+echo "Hello, World!";
 
 get_footer();

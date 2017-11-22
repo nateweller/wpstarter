@@ -1,11 +1,28 @@
-<!doctype html>
-<head {{lang}}>
-    <meta charset="{{charset}}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{siteTitle}} | {{siteDescription}}</title>
-    <!--[if IE]>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
-    {{wpHead}}
-</head>
-<body {{bodyClass}}>
+{# TODO: Support infinite levels of sub-navigation items (current: 3) #}
+<header>
+    <h1>{{ siteTitle }}</h1>
+    <p>{{ siteDescription }}</p>
+    {% if menu|length > 0 %}
+        <ul class="nav">
+            {% for menuItem in menu %}
+                <li class="{{ menuItem.classes|join }}"><a href="{{ menuItem.url }}">{{ menuItem.title }}</a></li>
+                {% if menuItem.subMenu %}
+                    <ul class="sub-menu">
+                        {% for subMenuItem in menuItem.subMenu %}
+                            <li class="{{ subMenuItem.classes|join }}"><a href="{{ subMenuItem.url }}">{{ subMenuItem.title }}</a></li>
+                            {% if subMenuItem.subMenu %}
+                                <ul class="sub-menu">
+                                    {% for subSubMenuItem in subMenuItem.subMenu %}
+                                        <li class="{{ subSubMenuItem.classes|join }}"><a href="{{ subSubMenuItem.url }}">{{ subSubMenuItem.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <nav>
+    </nav>
+</header>

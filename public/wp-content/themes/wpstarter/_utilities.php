@@ -22,13 +22,15 @@ function get_backtrace_filename ( int $level = 0, string $extension = '' ) {
 
 /**
  * Shortcut for Timber::render
- * Context generated from global $state array
  */
-function render_view () {
+function render_view ( string $view = '', array $variables = [] ) {
     global $state;
-    $view = get_backtrace_filename( 1, '.php' );
+    $view = ($view !== '') ? $view : get_backtrace_filename( 1, '.php' );
     $context = Timber::get_context();
     foreach ( $state as $key => $value ) {
+        $context[$key] = $value;
+    }
+    foreach ( $variables as $key => $value ) {
         $context[$key] = $value;
     }
     Timber::render( "/views/$view.twig", $context );
@@ -36,14 +38,42 @@ function render_view () {
 
 /**
  * Shortcut for Timber::compile
- * Context generated from global $state array
  */
-function compile_view () {
+function compile_view ( string $view = '', array $variables = [] ) {
     global $state;
-    $view = get_backtrace_filename( 1, '.php' );
+    $view = ($view !== '') ? $view : get_backtrace_filename( 1, '.php' );
     $context = Timber::get_context();
     foreach ( $state as $key => $value ) {
         $context[$key] = $value;
     }
     return Timber::compile( "views/$view.twig", $context );
 }
+
+# # # # # # # # # # # # # # # # # # # # 
+// DATA OPERATIONS \\ ~ * ~ * ~ * ~ * ~
+# # # # # # # # # # # # # # # # # # # # 
+
+/**
+ * Find an array or object in another array, by array/object key value
+ * Returns array/object index (int) or false
+ */
+function search_2D_array ( $arr, string $search_key, string $search_value ) {
+    foreach ( $arr as $key => $value ) {
+        $match_check = is_array( $value ) 
+                    ? $value['search_key'] == $search_value
+                    : $value->{"$search_key"} == $search_value;
+        if ( $match_check ) return $key;
+    }
+    return false;
+}
+
+// function search_multiD_array ( $arr, string $search_key, string $search_value ) {
+//     $target = $arr;
+//     $matched = false;
+//     foreach ( $arr as $key => $value ) {
+//         while ( ! $matched ) {
+//             $search = search_2D_array( $target, $search_key, $search_value );
+
+//         }
+//     }
+// }
