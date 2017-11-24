@@ -10,7 +10,11 @@
 
 {% macro menuItem( item, post ) %}
     <li class="{{ _self.menuItemClasses( item, post ) }}">
-        <a href="{{ item.url }}">{{ item.title }}</a>
+        {% if item.object_id == post.id %}
+            Current Page: {{ item.title }}
+        {% else %}
+            <a href="{{ item.url }}">{{ item.title }}</a>
+        {% endif %}
         {% if item.subMenu %}
             <ul class="sub-menu">
                 {% for menuItem in item.subMenu %}
@@ -25,10 +29,13 @@
     <h1 class="site-title"><a href="{{ site.url }}">{{ site.title }}</a></h1>
     <p class="site-description">{{ site.description }}</p>
     {% if menu|length > 0 %}
-        <ul class="menu primary-menu">
-            {% for menuItem in menu %}
-                {{ _self.menuItem( menuItem, post ) }}
-            {% endfor %}
-        </ul>
+        <nav aria-labelledby="site-menu-label">
+            <h2 id="site-menu-label" class="hidden">Site Menu</h2>
+            <ul class="menu site-menu">
+                {% for menuItem in menu %}
+                    {{ _self.menuItem( menuItem, post ) }}
+                {% endfor %}
+            </ul>
+        </nav>
     {% endif %}
 </header>

@@ -87,7 +87,7 @@ function load_timber_data ( string $view = '', array $variables = [] ) {
  */
 function render_view ( string $view = '', array $variables = [] ) {
     $timber_data = load_timber_data( $view, $variables );
-    debug( $timber_data );
+    // debug( $timber_data );
     Timber::render( "/views/{$timber_data['view']}.twig", $timber_data['context'] );
 }
 
