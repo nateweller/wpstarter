@@ -1,3 +1,10 @@
+        <ul class="menu">
+            {% for menuItem in menu %}
+                <li class="menu-item {{ menuItem.classes|join }}">
+                    <a href="{{ menuItem.url }}">{{ menuItem.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
         {{ wp_footer }}
         {{ debugger }}
     </body>

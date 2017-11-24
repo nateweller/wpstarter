@@ -1,0 +1,8 @@
+{% if posts|length > 0 %}
+    {% for post in posts %}
+        <section class="content">
+            <h2>{{ post.post_title }}</h2>
+            {{ post.content }}
+        </section>
+    {% endfor %}
+{% endif %}

@@ -4,6 +4,7 @@
 // DEVELOPMENT TOOLS \\ ~ * ~ * ~ * ~ *
 # # # # # # # # # # # # # # # # # # # # 
 
+// Show all PHP messages
 if ( ENV === 'development' ) {
     error_reporting(E_ALL);
     ini_set('display_errors', TRUE);
@@ -44,6 +45,8 @@ function debugger () {
 // TEMPLATE RENDERING \\ ~ * ~ * ~ * ~
 # # # # # # # # # # # # # # # # # # # # 
 
+// TODO: these fns use get_backtrace_filename() with a fixed trace # which is not good
+
 /**
  * Get the filename of the previous file in the backtrace.
  * Use $level to move further through the backtrace.
@@ -69,6 +72,7 @@ function load_timber_data ( string $view = '', array $variables = [] ) {
     $view = ($view !== '') ? $view : get_backtrace_filename( 2, '.php' );
     $context = Timber::get_context();
     $context['post'] = Timber::get_post();
+    $context['posts'] = Timber::get_posts();
     foreach ( $state as $key => $value ) {
         $context[$key] = $value;
     }
@@ -83,7 +87,7 @@ function load_timber_data ( string $view = '', array $variables = [] ) {
  */
 function render_view ( string $view = '', array $variables = [] ) {
     $timber_data = load_timber_data( $view, $variables );
-    // debug( $timber_data );
+    debug( $timber_data );
     Timber::render( "/views/{$timber_data['view']}.twig", $timber_data['context'] );
 }
 
@@ -93,6 +97,17 @@ function render_view ( string $view = '', array $variables = [] ) {
 function compile_view ( string $view = '', array $variables = [] ) {
     $timber_data = load_timber_data( $view, $variables );
     return Timber::compile( "/views/{$timber_data['view']}.twig", $timber_data['context'] );
+}
+
+/**
+ * Render the current template's view with the header and footer
+ * Use this for any template that doesn't need extra logic (i.e. 404.php)
+ */
+function render_template ( string $view = '' ) {
+    $view = ($view !== '') ? $view : get_backtrace_filename( 4, '.php' );
+    get_header();
+    render_view( $view );
+    get_footer();
 }
 
 /**

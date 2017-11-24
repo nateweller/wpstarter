@@ -21,11 +21,11 @@
     </li>
 {% endmacro %}
 
-<header>
-    <h1>{{ site.title }}</h1>
-    <p>{{ site.description }}</p>
+<header class="site-header">
+    <h1 class="site-title"><a href="{{ site.url }}">{{ site.title }}</a></h1>
+    <p class="site-description">{{ site.description }}</p>
     {% if menu|length > 0 %}
-        <ul class="nav">
+        <ul class="menu primary-menu">
             {% for menuItem in menu %}
                 {{ _self.menuItem( menuItem, post ) }}
             {% endfor %}

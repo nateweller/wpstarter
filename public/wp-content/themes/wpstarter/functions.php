@@ -14,6 +14,27 @@ $state = [];
 require_once( DIR . '/_utilities.php' );
 
 # # # # # # # # # # # # # # # # # # # #
+# THEME SETUP ~ * ~ * ~ * ~ * ~ * ~ * ~
+# # # # # # # # # # # # # # # # # # # #
+
+add_theme_support( 'post-thumbnails' ); 
+
+# # # # # # # # # # # # # # # # # # # #
+# PAGE TITLES ~ * ~ * ~ * ~ * ~ * ~ * ~
+# # # # # # # # # # # # # # # # # # # #
+
+function custom_page_title () {
+    if ( is_front_page() )  return get_bloginfo( 'description' );
+    if ( is_home() )        return 'Posts';
+    if ( is_archive() )     return 'Archive';
+    if ( is_404() )         return 'Error 404 Not Found';
+    if ( is_category() )    return 'Category Archive for ' . single_cat_title();
+    if ( is_tag() )         return 'Tag Archive for ' . single_tag_title();
+    if ( is_search() )      return 'Search Results for ' . wp_specialchars( $s );
+    return get_the_title();
+}
+
+# # # # # # # # # # # # # # # # # # # #
 # MENUS & NAVIGATION ~ * ~ * ~ * ~ * ~
 # # # # # # # # # # # # # # # # # # # #
 

@@ -1,12 +1,21 @@
 <!doctype html>
 <head lang="{{ site.language }}">
+
     <meta charset="{{ site.charset }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ site.title }} | {{ fn('is_front_page') ? site.description : post.post_title }}</title>
+    <meta name="og:title" content="{{ page_title }}">
+    {{ post.thumbnail.src ? '<meta name="og:image" content="' ~  post.thumbnail.src ~ '">' }}
+    
+    <link rel="shortcut icon" href="{{ site.theme.uri }}/favicon.ico" type="image/x-icon">
+    
+    <title>{{ site.title }} | {{ page_title }}</title>
+
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
+
     {{ wp_head }}
+
 </head>
 <body class="{{ body_class }}">
     {{ include('header.twig') }}

@@ -1,7 +1,8 @@
 .env
 _s/
-wp-content/plugins/
-wp-content/uploads/
+public/wp-content/plugins/
+public/wp-content/mu-plugins
+public/wp-content/uploads/
 
 # Compiled source #
 ###################
