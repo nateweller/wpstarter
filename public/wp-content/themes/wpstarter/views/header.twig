@@ -11,7 +11,7 @@
 {% macro menuItem( item, post ) %}
     <li class="{{ _self.menuItemClasses( item, post ) }}">
         {% if item.object_id == post.id %}
-            Current Page: {{ item.title }}
+            <span class="hidden">Current Page: </span>{{ item.title }}
         {% else %}
             <a href="{{ item.url }}">{{ item.title }}</a>
         {% endif %}

@@ -1,10 +1,16 @@
-        <ul class="menu">
-            {% for menuItem in menu %}
-                <li class="menu-item {{ menuItem.classes|join }}">
-                    <a href="{{ menuItem.url }}">{{ menuItem.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        <footer class="site-footer">
+            <ul class="menu footer-menu">
+                {% for menuItem in menu %}
+                    <li class="menu-item {{ item.object_id == post.id ? 'current-page' }} {{ menuItem.classes|join }}">
+                        {% if menuItem.object_id == post.id %}
+                            <span class="hidden">Current Page:</span> {{ menuItem.title }}
+                        {% else %}
+                            <a href="{{ menuItem.url }}">{{ menuItem.title }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </footer>
         {{ wp_footer }}
         {{ debugger }}
     </body>
