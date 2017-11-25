@@ -1,4 +1,4 @@
-/**
+/*!
  * Theme Name: WP Starter
  * Author: Nate Weller
  * Author URI: https://nateweller.com
@@ -7,4 +7,12 @@
  * Text Domain: wps
  */
 
-@import 'reboot';
+@import './vendor/bootstrap/scss/_functions.scss';
+@import './vendor/bootstrap/scss/_mixins.scss';
+@import 'variables';
+@import './vendor/bootstrap/scss/_reboot.scss';
+@import './vendor/bootstrap/scss/_reboot.scss';
+@import "./vendor/bootstrap/scss/_grid.scss";
+@import "./vendor/bootstrap/scss/_tables.scss";
+@import "./vendor/bootstrap/scss/_forms.scss";
+@import "./vendor/bootstrap/scss/_buttons.scss";
