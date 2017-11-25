@@ -72,7 +72,7 @@ function load_timber_data ( string $view = '', array $variables = [] ) {
     $view = ($view !== '') ? $view : get_backtrace_filename( 2, '.php' );
     $context = Timber::get_context();
     $context['post'] = Timber::get_post();
-    $context['posts'] = Timber::get_posts();
+    $context['posts'] = new Timber\PostQuery();
     foreach ( $state as $key => $value ) {
         $context[$key] = $value;
     }

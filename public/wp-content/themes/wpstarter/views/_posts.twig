@@ -6,3 +6,7 @@
         </section>
     {% endfor %}
 {% endif %}
+
+{% if posts.pagination %}
+    {% include('_pagination.twig') %}
+{% endif %}

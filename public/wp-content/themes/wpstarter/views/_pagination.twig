@@ -1,0 +1,43 @@
+{% macro paginationItem(page) %}
+
+    {% if 'prev' in page.class %}
+        {% set symbol = '&laquo;' %}
+        {% set text = 'Previous' %}
+    {% elseif 'next' in page.class %}
+        {% set symbol = '&raquo;' %}
+        {% set text = 'Next' %}
+    {% else %}
+        {% set symbol = page.title %}
+        {% set text = page.title %}
+    {% endif %}
+    
+    <li class="pagination-item">
+        {% if page.link %}
+            <a 
+                href="{{ page.link }}" 
+                class="{{ page.class }} {{ hidden }}"
+                aria-label="Goto Page {{ text }}">
+                {{ symbol }}
+            </a>
+        {% else %}
+            <span class="{{ page.class }}">
+                <span class="hidden">Current Page: </span>
+                {{ text }}
+            </span>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+<nav role="navigation" aria-label="Pagination Navigation">
+    <ul class="pagination">
+        {% if posts.pagination.prev %}
+            {{ _self.paginationItem( posts.pagination.prev )}}
+        {% endif %}
+        {% for page in posts.pagination.pages %}
+            {{ _self.paginationItem( page ) }}
+        {% endfor %}
+        {% if posts.pagination.next %}
+            {{ _self.paginationItem( posts.pagination.next )}}
+        {% endif %}
+    </ul>
+</nav>

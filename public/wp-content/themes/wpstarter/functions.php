@@ -5,6 +5,7 @@
 # # # # # # # # # # # # # # # # # # # #
 
 define( 'DIR', get_stylesheet_directory() );
+define( 'DIR_URI', get_stylesheet_directory_uri() );
 define( 'ENV', getenv(WP_ENVIRONMENT) );
 $state = [];
 
@@ -17,7 +18,21 @@ require_once( DIR . '/_utilities.php' );
 # THEME SETUP ~ * ~ * ~ * ~ * ~ * ~ * ~
 # # # # # # # # # # # # # # # # # # # #
 
+// Support Featured Image
 add_theme_support( 'post-thumbnails' ); 
+
+// CSS
+function styles () {
+    wp_enqueue_style( 'style', DIR_URI . '/style.css' );
+}
+
+add_action( 'wp_enqueue_scripts', 'styles' );
+
+// Remove WordPress emoji because why does it exist in the first place
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 # # # # # # # # # # # # # # # # # # # #
 # PAGE TITLES ~ * ~ * ~ * ~ * ~ * ~ * ~
