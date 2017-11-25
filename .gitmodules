@@ -1,0 +1,3 @@
+[submodule "public/wp-content/themes/wpstarter/styles/vendor/bootstrap"]
+	path = public/wp-content/themes/wpstarter/styles/vendor/bootstrap
+	url = https://github.com/twbs/bootstrap.git
